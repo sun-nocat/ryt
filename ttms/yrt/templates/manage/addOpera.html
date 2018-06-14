@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+	<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+        li{
+            list-style: none;
+            height: 50px;
+        }
+        #left-input{
+            position: absolute;
+            left: 300px;
+            top: 50px;
+
+        }
+        #right-input{
+            position: absolute;
+            left: 450px;
+            top: 50px;
+
+        }
+        #input{
+
+            height: 400px;
+        }
+        input{
+        }
+        #showOpera{
+            height: 350px;
+        }
+        #in{
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container" >
+    <div id="input">
+
+
+    <div id="left-input">
+        <ul id="ul-left">
+            <li>影片类型</li>
+            <li>影片名称</li>
+            <li>影片时长</li>
+            <li>影片票价</li>
+            <li>影片图片</li>
+            <li>影片描述</li>
+        </ul>
+    </div>
+
+    <div id="right-input">
+        <form action="/api/addOpera" method="post" enctype="multipart/form-data">
+            <ul id="ul-right">
+                <li>
+                    <select name="type" id="type">
+                        <option value="喜剧">喜剧</option>
+                        <option value="战争">战争</option>
+                        <option value="爱情">爱情</option>
+                        <option value="记录片">记录片</option>
+                        <option value="动画片">动画片</option>
+                    </select>
+                </li>
+
+                <li>
+                    <input type="text" name="name" id="name">
+                </li>
+                <li>
+                    <input type="text" name="length" id="length">
+                </li>
+                <li>
+                    <input type="text" name="price" id="price">
+                </li>
+                <li>
+                    <input type="file" name="image" id="image">
+                </li>
+                <li>
+                    <textarea name="describe" id="describe" cols="20" rows="3" >
+
+                    </textarea>
+                </li>
+                <li>
+                    <input type="submit" value="提交" id="in">
+                </li>
+            </ul>
+
+        </form>
+    </div>
+    </div>
+</div>
+
+
+
+
+<div class="container" id="showOpera">
+	<h2>最近引入的剧目</h2>
+	<table class="table table-hover">
+		<thead>
+			<tr>
+				<th>影片类型</th>
+				<th>影片名称</th>
+				<th>影片时长</th>
+				<th>影片票价</th>
+{#				<th>影片描述</th>#}
+			</tr>
+		</thead>
+
+		<tbody id="tab">
+
+		</tbody>
+	</table>
+</div>
+
+
+
+    <script>
+        function showOpera() {
+            $.ajax({
+                url: "/api/getOpera",
+                type: "POST",
+                data : {
+
+                },
+                success : function (data) {
+
+
+                    jsdata1=data.data
+                    console.log(jsdata1)
+
+
+                    var obj = document.getElementById("ul");
+
+
+                      for (var i=0;i<5;i++){
+                          var tr =document.createElement("tr");
+
+                      var createtr1 = document.createElement("td");
+                      var createtr2 = document.createElement("td");
+                      var createtr3 = document.createElement("td");
+                      var createtr4 = document.createElement("td");
+                      var createtr5 = document.createElement("td");
+
+                        createtr1.innerHTML = jsdata1[i].type;
+{#                        createtr1.style="    font-size: 20px;";#}
+                        tr.appendChild(createtr1);
+
+                        createtr2.innerHTML = jsdata1[i].name;
+{#                        createtr2.style="    font-size: 20px;";#}
+                        tr.appendChild(createtr2);
+
+                        createtr3.innerHTML = jsdata1[i].length;
+{#                        createtr3.style="    font-size: 20px;";#}
+                        tr.appendChild(createtr3);
+
+                        createtr4.innerHTML = jsdata1[i].price;
+{#                        createtr4.style="    font-size: 20px;";#}
+                       tr.appendChild(createtr4);
+
+{#                        createtr5.innerHTML = jsdata1[i]/.describe;#}
+{#                        createtr5.style="    font-size: 20px;";#}
+{#                        tr.appendChild(createtr5);#}
+
+
+
+                        document.getElementById("tab").appendChild(tr)
+
+
+                    } },
+
+                error : function(){
+                    console.log("错误")
+                }
+            })
+        }
+
+        showOpera();
+
+        document.getElementById("but").onclick=function () {
+
+                            $("#tab").children="none";
+
+                    var f= document.getElementById("tab");
+                    var childs = f.childNodes;
+                    for(var i =childs.length-1; i >= 0;i--){
+                        console.log(childs[i])
+                        f.removeChild(childs[i]);
+
+                    }
+
+
+        $.ajax(
+            {
+                url: "/api/addOpera",
+                type: "POST",
+                data : {
+                    name:$("#name").val(),
+                    type:$("#type").val(),
+                    length:$("#length").val(),
+                    price:$("#price").val(),
+                    describe:$("#describe").val(),
+                    image:$("#image").val()
+
+                },
+                success:function (data) {
+                    console.log(data);
+                    $("#name").val('');
+                    $("#type").val('');
+                    $("#length").val('');
+                    $("#price").val('');
+                    $("#image").val('');
+                    $("#describe").val('');
+                    showOpera();
+
+
+                },
+                error:function ()
+                {
+
+                }
+            }
+
+
+
+        )
+        }
+
+
+</script>
+
+
+
+</body>
+</html>

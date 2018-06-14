@@ -1,0 +1,322 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>添加演出厅</title>
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <style>
+        * {
+            margin: 0px;
+        }
+        
+        #addhouse {
+            width: 1000px;
+            height: 720px;
+            margin: auto;
+            box-sizing: border-box;
+            padding: 10px;
+            display: none;
+        }
+        
+        #yname p {
+            display: inline-block;
+            width: 120px;
+            height: 36px;
+            line-height: 36px;
+            text-align: center;
+            background-color: #87CEFA;
+        }
+        
+        #yname input {
+            width: 430px;
+            height: 36px;
+            box-sizing: border-box;
+            position: relative;
+            top: 0px;
+        }
+        
+        h3 {
+            margin: 15px 0px;
+        }
+        
+        p {
+            margin: 5px 0px;
+        }
+        
+        #seat {
+            width: 550px;
+            height: 500px;
+            padding: 25px;
+            box-sizing: border-box;
+            background-color: white;
+            float: left;
+        }
+        
+        #tishi {
+            width: 250px;
+            height: 600px;
+            float: left;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        
+        #tishi .ts {
+            position: relative;
+            top: 50px;
+        }
+        
+        #message {
+            width: 300px;
+            height: 200px;
+            position: relative;
+            top: 100px;
+        }
+        
+        #ping {
+            width: 500px;
+        }
+        
+        #img img {
+            width: 500px;
+        }
+        
+        #check {
+            width: 400px;
+            margin: auto;
+        }
+        
+        .number {
+            box-sizing: border-box;
+            width: 40px;
+            height: 40px;
+            float: left;
+            padding: 8px;
+        }
+        
+        .number img {
+            width: 24px;
+        }
+        
+        #button {
+            width: 100px;
+            height: 36px;
+            background-color: #7bbfea;
+            outline: none;
+            border: 0px;
+            box-shadow: 2px 3px 3px #72777b;
+            position: relative;
+        }
+        
+        #button:active {
+            top: 2px;
+            left: 2px;
+            box-shadow: none;
+        }
+        
+        #table {
+            width: 100%;
+            margin: auto;
+            position: relative;
+            top: 0px;
+        }
+        
+        #show {
+            width: 120px;
+            height: 36px;
+            outline: none;
+            border: 0px;
+            background-color: #40E0D0;
+            margin: 10px;
+            box-shadow: 2px 3px 3px #72777b;
+            position: relative;
+        }
+        
+        #show:active {
+            background-color: darkcyan;
+            top: 2px;
+            left: 2px;
+            box-shadow: none;
+        }
+    </style>
+</head>
+
+<body>
+    <button id="show">添加演出厅</button>
+    <div id="addhouse">
+        <div id="yname">
+            <p>演出厅名称</p><input onchange="bian();" type="text" name="name" id="name" autocomplete="off" placeholder="例：一号演出厅" />
+        </div>
+        <h3>编辑座位表</h3>
+
+        <div id="seat">
+            <div id="img"><img src="../img/ping.png"></div>
+            <div id="check">
+                <div class="number"><img src="../img/zw_kx.gif"></div>
+            </div>
+        </div>
+        <div id="tishi">
+            <p class="ts"><img src="../img/zw_kx.gif">空白代表可用座位</p>
+            <p class="ts"><img src="../img/yx.gif">红色代表不可用座位</p>
+            <p class="ts">点击座位切换状态</p>
+            <div id="message">
+                <p id="housename">演出厅名:</p>
+                <p id="seatnum">座位数: 100</p>
+                <button id="button">提交</button>
+            </div>
+        </div>
+    </div>
+    <div id="table">
+        <table id="demo" lay-filter="test"></table>
+    </div>
+
+    <script src="../layui/layui.all.js"></script>
+
+    <script type="text/html" id="barDemo">
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    </script>
+    <script>
+        var $ = layui.$;
+        var table = layui.table;
+        var layer = layui.layer;
+        var form = layui.form;
+        table.render({
+            elem: '#demo',
+            cellMinWidth: 100,
+
+            url: '/get/message?api=house', //数据接口
+            id: 'testReload',
+            cols: [
+                [ //表头
+                    {
+                        type: 'numbers',
+                        align: 'center',
+                        width: '4%'
+                    }, {
+                        field: 'housename',
+                        title: '演出厅',
+                        align: 'center',
+                        width: '12%',
+                    }, {
+                        field: 'id',
+                        title: '编号',
+                        align: 'center',
+                        width: '8%',
+                        sort: true
+                    }, {
+                        field: 'seatnum',
+                        title: '座位数',
+                        align: 'center',
+                        width: '66%'
+                    }, {
+                        fixed: 'right',
+                        align: 'center',
+                        width: '8%',
+                        toolbar: '#barDemo'
+                    }
+                ]
+            ]
+        });
+        table.on('tool(test)', function(obj) {
+            var data = obj.data;
+            var layevent = obj.event;
+            console.log(data, layevent);
+            if (layevent == "del") {
+                layer.confirm('确认删除吗', function(index) {
+                    obj.del();
+                    layer.close(index);
+                    $.ajax({
+                        url: '/del/message?api=house',
+                        type: "POST",
+                        data: {
+                            id: data.id,
+                            housename: data.housename
+                        },
+                        success: function(data) {
+                            var obj = JSON.parse(data);
+                            if (obj.status === "false") {
+                                alert(obj.msg);
+                            } else if (obj.status === "true") {
+                                alert("删除成功");
+                            }
+                        },
+                        error: function() {
+                            alert("请求删除失败");
+                        }
+                    });
+                });
+            }
+        });
+    </script>
+    <script>
+        var i = 1;
+        var array = [1];
+        var data = 100;
+        $("#show").click(function() {
+            $("#addhouse").slideToggle("slow");
+        });
+
+        function bian() {
+            $("#housename").text("演出厅名：" + $("#name").val());
+        }
+        $(".number:first").attr("num", 0);
+        for (; i < 100; i++) {
+            var temp = $(".number:first").clone();
+            temp.attr("num", i);
+            $("#check").append(temp);
+            array.push(1);
+        }
+        $(".number").click(function() {
+            if (array[$(this).attr("num")] === 1) {
+                array[$(this).attr("num")] = -array[$(this).attr("num")];
+                $(this).children("img").attr("src", "../img/yx.gif");
+                data = data - 1;
+            } else if (array[$(this).attr("num")] === -1) {
+                array[$(this).attr("num")] = -array[$(this).attr("num")];
+                $(this).children("img").attr("src", "../img/zw_kx.gif");
+                data = data + 1;
+            }
+            $("#seatnum").text("座位数：" + data);
+            console.log(array);
+        });
+        $("#button").click(function() {
+            if ($("#name").val().length >= 1) {
+                console.log($("#name").val(), data, array);
+                var arraystring = "[";
+                for (var k = 0; k < array.length - 1; k++) {
+                    arraystring += array[k] + ",";
+                }
+                arraystring += array[array.length - 1] + "]";
+                $.ajax({
+                    url: "/post/add",
+                    type: "POST",
+                    //type:"POST",
+                    data: {
+                        api: "house",
+                        housename: $("#name").val(),
+                        seatnum: data,
+                        seat: arraystring,
+                    },
+                    success: function(data) {
+                        $("#name").val("");
+                        var obj = JSON.parse(data);
+                        if (obj.status === "false") {
+                            alert(obj.msg);
+                        } else if (obj.status === "true") {
+                            alert("演出厅创建成功");
+                        }
+                        console.log("post接收到的数据：" + data);
+                    },
+                    error: function() {
+                        console.log("post请求出错");
+                    }
+                })
+            } else {
+                alert("演出厅名不能为空");
+            }
+        });
+    </script>
+</body>
+
+</html>

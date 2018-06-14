@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/static/css/data.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+	<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+    <style>
+
+
+        #calend{
+            float: left;
+            margin-left: 360px;
+            border-radius: 5px;
+        }
+
+        .select{
+            height: 50px;
+            width: 200px;
+            border-radius: 5px;
+            box-shadow: 0 0 5px #ccc;
+            padding: 10px;
+            text-align: center;
+            display: block;
+            float:left ;
+            position: relative;
+        }
+        select{
+            border: none;
+            outline: none;
+            width: 100%;
+            height: 40px;
+            line-height: 40px;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            padding-left: 60px;
+        }
+        ul{
+            padding-left: 316px;
+        }
+        li{
+            list-style: none;
+            float: left;
+            padding-left: 110px;
+        }
+        #head{
+            height: 50px;
+        }
+        #se{
+            height: 100px;
+        }
+        #h2{
+            margin-left: 115px;
+        }
+
+    </style>
+</head>
+<body>
+<div id="h2">
+    <h2>安排演出</h2>
+    <p>安排演出需要先选择演出的时间，场次，演出厅,然后再已经上线的剧目中进行操作</p>
+</div>
+
+
+<div >
+    <!-- 提示-->
+    <div id="head">
+        <ul>
+            <li>选择上映日期</li>
+            <li>选择上映时间</li>
+            <li>选择上映演出厅</li>
+        </ul>
+    </div>
+    <!-- 选择部分-->
+    <div id="se">
+
+            <div id="calend" class="calend" >选择日期</div>
+            <div id="select1" class="select" >
+                <select name="" id="">
+                    <option value="1">8-11</option>
+                    <option value="2">12-15</option>
+                    <option value="3">16-19</option>
+                    <option value="4">20-23</option>
+                </select>
+            </div>
+
+            <div id="select2" class="select">
+                <select name="" id="">
+                <option value="1">一号演出厅</option>
+                <option value="2">二号演出厅</option>
+                <option value="3">三号演出厅</option>
+                <option value="4">四号演出厅</option>
+                </select>
+            </div>
+    </div>
+
+</div>
+     <!-- 以上映剧目的展示部分-->
+<div class="container" id="showOpera">
+	<h2>已上线剧目</h2>
+    <p>已上线的剧目才可以被安排演出</p>
+    <div id="cs">
+        <table class="table table-hover" id="">
+            <thead>
+                <tr>
+                    <th>剧目编号</th>
+                    <th>剧目类型</th>
+                    <th>剧目名称</th>
+                    <th>剧目时长</th>
+                    <th>剧目票价</th>
+{#                    <th>剧目描述</th>#}
+                    <th>剧目状态</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+                    <tbody id="tab" ></tbody>
+        </table>
+    </div>
+
+</div>
+
+
+<script>
+    //获取上线剧目信息
+    $.ajax({
+        url  :"/api/getOperaData",
+        type :"POST",
+        data :{
+
+        },
+        success:function (data) {
+            console.log(data)
+            //将已经上线的剧目添加进页面中
+            jsdata1=data.data
+                    var obj = document.getElementById("ul");
+
+
+                      for (var i=0;i<jsdata1.length;i++) {
+
+
+                          var tr = document.createElement("tr");
+                          var createtr0 = document.createElement("td");
+                          var createtr1 = document.createElement("td");
+                          var createtr2 = document.createElement("td");
+                          var createtr3 = document.createElement("td");
+                          var createtr4 = document.createElement("td");
+                          var createtr5 = document.createElement("td");
+                          var createtr6 = document.createElement("td");
+                          var createtr7 = document.createElement("td");
+
+                          createtr0.innerHTML = jsdata1[i].id;
+                          tr.appendChild(createtr0);
+
+                          createtr1.innerHTML = jsdata1[i].type;
+                          tr.appendChild(createtr1);
+
+                          createtr2.innerHTML = jsdata1[i].name;
+                          tr.appendChild(createtr2);
+
+                          createtr3.innerHTML = jsdata1[i].length;
+                          tr.appendChild(createtr3);
+
+                          createtr4.innerHTML = jsdata1[i].price;
+                          tr.appendChild(createtr4);
+
+{#                          createtr5.innerHTML = jsdata1[i].describe;#}
+{#                          tr.appendChild(createtr5);#}
+
+                          createtr6.innerHTML = jsdata1[i].status;
+                          tr.appendChild(createtr6);
+
+                          createtr7.innerHTML = '<input type="button" value="安排演出并生成票" class="onbut" onclick="onbtnClick(this)">';
+                          tr.appendChild(createtr7);
+
+
+                          document.getElementById("tab").appendChild(tr)
+
+                      }
+
+        },
+        error:function () {
+
+        }
+    });
+
+
+        //获取演出厅信息
+{#    $.ajax({#}
+{#        url  :"/api/getPlayData",#}
+{#        type :"POST",#}
+{#        data :{#}
+{##}
+{#        },#}
+{#        success:function (data) {#}
+{#            console.log(data)#}
+{##}
+{#        },#}
+{#        error:function () {#}
+{##}
+{#        }#}
+{#    });#}
+
+            var onbutlist = document.getElementsByClassName("onbut");
+            console.log(onbutlist);
+
+            function onbtnClick(e) {
+                //获取到剧目id
+                var operaId = e.parentNode.parentNode.childNodes[0].innerText;
+                console.log(operaId);
+                var data = document.getElementById("calend").innerText;
+                console.log(data);
+                var time = $('#select1 option:selected').val();
+                console.log(time);
+                var studio = $('#select2 option:selected').val();
+                console.log(studio)
+
+            $.ajax({
+                url  :"/api/setPlay",
+                type :"POST",
+                data :{
+                    data:data,
+                    time:time,
+                    playId:studio,
+                    operaId:operaId
+                },
+                success:function (data) {
+                    console.log(data)
+                    alert("安排演出成功并成功生成票")
+
+
+                },
+                error:function () {
+
+                }
+            });
+
+
+            }
+
+
+
+
+    //设置演出计划
+    //参数 data  时间
+    //参数 time 设置时间段 （1，2，3，4）
+    //参数 playId 设置演出厅（1,2,3,4,）
+    //参数 operaId 设置剧目 id
+
+
+
+
+{#    $.ajax({#}
+{#        url  :"/api/setPlay",#}
+{#        type :"POST",#}
+{#        data :{#}
+{#            data:"2018-6-6",#}
+{#            time:3,#}
+{#            playId:4,#}
+{#            operaId:55#}
+{#        },#}
+{#        success:function (data) {#}
+{#            console.log(data)#}
+{##}
+{#        },#}
+{#        error:function () {#}
+{##}
+{#        }#}
+{#    });#}
+
+
+{#    // 获取已经安排的演出信息#}
+{#        $.ajax({#}
+{#        url  :"/api/getPlay",#}
+{#        type :"POST",#}
+{#        data :{#}
+{##}
+{#        },#}
+{#        success:function (data) {#}
+{#            console.log(data)#}
+{##}
+{#        },#}
+{#        error:function () {#}
+{##}
+{#        }#}
+{#    });#}
+
+
+
+
+</script>
+
+<script src="/static/js/data.js"></script>
+
+</body>
+</html>

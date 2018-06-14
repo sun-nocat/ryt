@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8"> 
+	<title>Bootstrap 实例 - 简单的轮播（Carousel）插件</title>
+	<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="http://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+    <script src="http://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+        body{
+            padding: 0px;
+            border: 0px;
+            margin: 0px;
+        }
+        #lunbo{
+            /* margin-left: 10px; */
+              width:100%;
+              height: 500px;
+              overflow: hidden;
+             margin: 0 auto;
+             /* border: 1px;  */
+             padding: 0px;
+            border: 1px solid beige;
+             /* text-align: center; */
+
+             
+
+
+        }
+        .carousel-indicators{
+
+
+            margin-bottom: 240px;
+        }
+        /* #myCarousel{
+            width: 100%;
+        } */
+        #main{
+            margin: 0 auto;
+            padding: 0px;
+            border: 0px;
+
+        }
+        img{
+            width: 100%;
+{#            height: 400px;#}
+        }
+
+        .carousel-control .glyphicon-chevron-right{
+            margin-top: -135px;
+        }
+        .carousel-control .glyphicon-chevron-left{
+            margin-top: -135px;
+        }
+        .main2{
+            background-color: #eeeeee;
+            width: 100%;
+            height: 600px;
+            margin: 0 auto;
+        }
+
+        .home1{
+            width:50%;
+            height: 300px;
+            float: left;
+{#            background-color: #2ba3d4;#}
+
+        }
+        .homeimg{
+            margin: 10px;
+            width: 130px;
+            height: 200px;
+                    box-shadow: 1px 1px 3px 2px #969696;
+
+        }
+        .text{
+            position: relative;
+            left: 235px;
+            top: -202px;
+            width: 400px;
+            height: 169px;
+                    font-family: arial, Tahoma, simsun, 宋体;
+
+{#            background-color: #2ecc71;#}
+
+        }
+        .img{
+            width: 150%;
+        }
+    
+    </style>
+</head>
+<body>
+
+<div id="main">
+
+        <div id="lunbo">
+                <div id="myCarousel" class="carousel slide">
+                        <!-- 轮播（Carousel）指标 -->
+                        <ol class="carousel-indicators">
+                            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                            <li data-target="#myCarousel" data-slide-to="1"></li>
+                            <li data-target="#myCarousel" data-slide-to="2"></li>
+                            <li data-target="#myCarousel" data-slide-to="3"></li>
+                            <li data-target="#myCarousel" data-slide-to="4"></li>
+                        </ol>
+                        <!-- 轮播（Carousel）项目 -->
+                        <div class="carousel-inner">
+                            <div class="item active">
+                                <img src="/static/img/lun11.jpg" alt="First slide" >
+                            </div>
+                            <div class="item">
+                                <img src="/static/img/lun22.jpg" alt="Second slide">
+                            </div>
+                            <div class="item">
+                                <img src="/static/img/lun33.jpg" alt="Third slide">
+                            </div>
+                            <div class="item">
+                                <img src="/static/img/lun44.jpg" alt="Third slide">
+                            </div>
+                            <div class="item">
+                                <img src="/static/img/lun55.jpg" alt="Third slide">
+                            </div>
+                        </div>
+                        <!-- 轮播（Carousel）导航 -->
+                        <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+                            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+                            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+        </div>
+</div>
+            <!--轮播图结束-->
+
+        <div class="main2">
+
+            <div class="home1">
+                    <div class="homeimg">
+                        <img src="/static/img/home1.jpg" alt="" class="img">
+                    </div>
+
+                    <div class="text">
+这不是普通意义上的一场音乐会
+这，还是一次浪漫的约会
+
+琴键跳动、心儿荡漾
+青春已然轰轰烈烈
+爱情也要浪漫缠绵
+
+假如我们相遇，肯定一眼就能认出彼此
+任时光再美，又怎如初见
+
+音乐带给你一次特殊的“旅行”
+你和TA十指相扣，只需坐在那里
+静静地，聆听
+                    </div>
+
+            </div>
+
+                        <div class="home1">
+                    <div class="homeimg">
+                        <img src="/static/img/home2.jpg" alt="" class="img">
+                    </div>
+
+                    <div class="text">
+《白蛇传》是中国戏曲名剧，故事初见明·冯梦龙著《警世通言》（卷二十八）《白娘子永镇雷峰塔》。有多个版本，其中田汉改编的京剧《白蛇传》最为有名。全男班这次演出是依托田汉的剧本，采用评书+京剧的表演方式，为观众呈现一个小剧场版本的《白蛇传》。
+                    </div>
+
+            </div>
+
+                        <div class="home1">
+                    <div class="homeimg">
+                        <img src="/static/img/home3.jpg" alt="" class="img">
+                    </div>
+
+                    <div class="text">
+本剧以浅显易懂的方式重述了西方世界现存最古老的文学作品：天上众神、致命弱点在脚踵的英雄，还有触发了大战的绝世红颜……贴近观众的讲述形式，使得这部西方文学史上古老的作品不仅浅显易懂，而且跟今日的世界如此接近如此相关，与当下紧密结合，并充满诡异的魅力。它，也回答了一个问题：“特洛伊战争以来，世界究竟改变了几许？
+
+                    </div>
+
+            </div>
+
+                        <div class="home1">
+                    <div class="homeimg">
+                        <img src="/static/img/home4.jpg" alt="" class="img">
+                    </div>
+
+                    <div class="text">
+中央音乐学院小提琴副教授
+中国十大小提琴家
+首届cctv小提琴钢琴大赛冠军
+中国音乐家协会小提琴协会理事
+他是当今中国最具实力和影响力的青年小提琴家之一
+                    </div>
+
+            </div>
+
+
+
+
+        </div>
+
+
+</body>
+</html>

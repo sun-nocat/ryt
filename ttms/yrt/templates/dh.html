@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
+{#    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">  #}
+{#	<script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>#}
+{#	<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>#}
+    <title>Title</title>
+    <style>
+        #aa5{
+            display: none;
+        }
+        body{
+            /* background-color: antiquewhite; */
+            margin: 0px;
+            padding: 0px;
+            border: 0px;
+        }
+    .li{
+        display: inline-block;
+        list-style: none;
+        margin: 0px;
+        /* padding-top: 15px; */
+        /* margin-left: 30px; */
+        padding: 0px;
+        border: 0px;
+        text-align: center;
+        width: 100px;
+        height: 80px;
+    }
+
+    #q1{
+        margin: 0px;
+        height: 80px;
+        margin: 0px;
+        /* text-align: center; */
+        margin-left:34%;
+        border: 1px;
+        padding: 0px;
+        
+        line-height: 80px;
+        font-weight: 400;
+        font-size: 18px;
+
+    }
+
+    a{
+        text-decoration: none;
+        /* padding-top: 20px; */
+
+
+    }
+
+
+    .li:hover{
+        background-color: #2ba3d4;
+
+
+    }
+   
+
+    .move{
+        display: inline-block;
+        list-style: none;
+        /* padding-top:15px; */
+        /* margin-left: 30px; */
+        padding: 0px;
+        border: 0px;
+        text-align: center;
+        width: 100px;
+        background-color: #ccc;
+    }
+    .deletemove{
+        display: inline-block;
+        list-style: none;
+        /* padding-top: 15px; */
+        /* margin-left: 30px; */
+        padding: 0px;
+        border: 0px;
+        text-align: center;
+        width: 100px;
+        /* background-color: aqua; */
+    }
+
+    #img{
+        position: absolute;
+        left: 100px;
+        width: 80px;
+        height: 80px;
+    }
+    form{
+        float: right;
+        /* margin: 20px 10px 0 0; */
+        padding: 0px;
+        /* position: relative; */
+        list-style: none;
+        border: none;
+    }
+
+    input{
+        padding: 0px;
+        margin: 0px;
+        list-style: none;
+        border: 0px;
+        text-transform: none;
+        text-indent: 0px;
+        text-shadow:none;
+        letter-spacing: normal;
+        word-spacing: normal
+
+    }
+    #login{
+        position: absolute;
+        right: 25px;
+        top: 25px;
+        background-color: aqua;
+        width: 60px;
+        height: 30px;
+        border-radius: 30px;
+        text-align: center;
+        line-height: 30px;
+{#        display: none;#}
+
+    }
+                #show{
+        position: absolute;
+        right: 100px;
+        top: 10px;
+        width: 60px;
+        height: 30px;
+        text-align: center;
+        line-height: 30px;
+                display: none;
+
+    }
+
+
+            #bun{
+        position: absolute;
+        right: 25px;
+        top: 25px;
+        background-color: aqua;
+        width: 60px;
+        height: 30px;
+        border-radius: 30px;
+        text-align: center;
+        line-height: 30px;
+                display: none;
+    }
+        #img1{
+            height: 80px;
+            width: 250px;
+            position: absolute;
+            left: 211px;
+            top: 7px;
+            overflow: hidden;
+        }
+        #img2{
+            height: 60px;
+        }
+    </style>
+</head>
+<body>
+        <div class="container">
+        
+       <img src="/static/img/logo.png" alt="锐意特" id="img">
+            <div id="img1">
+            <img src="/static/img/login1.png" alt="" id="img2">
+
+            </div>
+
+       <div class="container">
+               <ul id="q1"   >
+                    <!-- class="nav navbar-nav" -->
+                       <li id="aa1" class="li">
+                               <a href="home" target="show" id="a1" >首页</a>
+                       </li>
+                       <li id="aa2" class="li">
+                               <a href="ticket" target="show" id="a2">剧目</a>
+                       </li>
+                       <li id="aa3" class="li">
+                               <a href="opera" target="show" id="a3">购票</a>
+                       </li>
+{#                       <li id="aa4" class="li">#}
+{#                               <a href="manageIndex" target="show" id="a4">热点</a>#}
+{#                       </li>#}
+                        <li id="aa5" class="li">
+                               <a href="manageIndex" target="show" id="a5">管理员选项</a>
+                       </li>
+                </ul>
+       </div>
+       <a href="login" id="login" target="show">登录</a>
+            <p id="show"></p>
+            <input type="button" id="bun" value="退出登录">
+</div>
+        <hr>
+<script>
+
+    var obj =document.getElementById("bun");
+    obj.onclick=function () {
+        $.ajax(
+            {
+                url:'/api/logout',
+                type:'POST',
+                data:{
+                },
+                success:function (data) {
+                    window.location.reload()
+                },
+                error:function () {
+                }
+            }
+        )
+
+
+
+    };
+
+
+    var obj1=document.getElementById("a1");
+    var obj2=document.getElementById("a2");
+    var obj3=document.getElementById("a3");
+    var obj4=document.getElementById("a4");
+    var obj5=document.getElementById("a5");
+
+    obj1.onclick=function(){
+        document.getElementById("aa2").className='deletemove'
+        document.getElementById("aa3").className='deletemove'
+        document.getElementById("aa4").className='deletemove'
+        document.getElementById("aa5").className='deletemove'
+    
+        document.getElementById("aa1").className='move';
+    };
+    obj2.onclick=function(){
+        document.getElementById("aa1").className='deletemove'
+        document.getElementById("aa3").className='deletemove'
+        document.getElementById("aa4").className='deletemove'
+        document.getElementById("aa5").className='deletemove'
+
+        document.getElementById("aa2").className='move';
+    }
+    obj3.onclick=function(){
+        document.getElementById("aa1").className='deletemove'
+        document.getElementById("aa2").className='deletemove'
+        document.getElementById("aa4").className='deletemove'
+        document.getElementById("aa5").className='deletemove'
+
+        document.getElementById("aa3").className='move';
+    }
+    obj4.onclick=function(){
+        document.getElementById("aa1").className='deletemove'
+        document.getElementById("aa2").className='deletemove'
+        document.getElementById("aa3").className='deletemove'
+        document.getElementById("aa5").className='deletemove'
+
+        document.getElementById("aa4").className='move';
+    };
+    obj5.onclick=function(){
+         document.getElementById("aa2").className='deletemove'
+         document.getElementById("aa3").className='deletemove'
+         document.getElementById("aa4").className='deletemove'
+         document.getElementById("aa1").className='deletemove'
+
+         document.getElementById("aa5").className='move';
+     }
+
+
+
+</script>
+
+        <script>
+
+            $.ajax({
+                url:'/api/check',
+                type:"POST",
+
+                success: function (data) {
+
+                    console.log(data);
+                    status = data.status;
+                    if (status === "0"){
+                        document.getElementById("show").innerText=data.name;
+                        document.getElementById("show").style.display="inline";
+                        document.getElementById("login").style.display="none";
+                        document.getElementById("bun").style.display="inline"
+                    }
+                    if (status === "-1"){
+                        document.getElementById("show").innerText=data.name;
+                        document.getElementById("show").style.display="inline";
+                        document.getElementById("login").style.display="none";
+                        document.getElementById("bun").style.display="inline";
+                        document.getElementById("aa5").style.display="inline"
+                    }
+                },
+                error:function () {
+
+
+
+
+                }
+            })
+
+
+        </script>
+
+</body>
+</html>

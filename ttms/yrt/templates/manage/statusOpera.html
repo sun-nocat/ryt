@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+	<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+        li{
+            list-style: none;
+            height: 50px;
+        }
+        #left-input{
+            position: absolute;
+            left: 300px;
+            top: 50px;
+
+        }
+        #right-input{
+            position: absolute;
+            left: 450px;
+            top: 50px;
+
+        }
+        #input{
+
+            height: 400px;
+{#            border-radius: 50px;#}
+        }
+        input{
+{#            border-radius: 20px;#}
+        }
+        #showOpera{
+
+
+        }
+        #cs{
+{#            width: 1100px;#}
+{#            height: 300px;#}
+{#            overflow: auto;#}
+        }
+        #biaotou{
+            width: 975px;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container" id="showOpera">
+	<h2>已上线剧目</h2>
+    <div id="cs">
+        <table class="table table-hover" id="">
+            <thead>
+                <tr>
+                    <th>剧目编号</th>
+                    <th>剧目类型</th>
+                    <th>剧目名称</th>
+                    <th>剧目时长</th>
+                    <th>剧目票价</th>
+{#                    <th>剧目描述</th>#}
+                    <th>剧目状态</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+    {#        <div id="cs1">#}
+
+                    <tbody id="tab" >
+
+                    </tbody>
+    {#        </div>#}
+        </table>
+    </div>
+
+
+</div>
+<div class="container">
+    	<h2>等待上映剧目</h2>
+    <table class="table table-hover" id="">
+		<thead>
+			<tr>
+				<th>剧目编号</th>
+				<th>剧目类型</th>
+				<th>剧目名称</th>
+				<th>剧目时长</th>
+				<th>剧目票价</th>
+{#				<th>剧目描述</th>#}
+				<th>剧目状态</th>
+				<th>操作</th>
+			</tr>
+		</thead>
+
+                <tbody id="tab2" >
+
+                </tbody>
+
+	</table>
+</div>
+
+
+    <script>
+        function showOpera() {
+            $.ajax({
+                async:false,
+                url: "/api/getOpera",
+                type: "POST",
+                data : {
+
+                },
+                success : function (data) {
+
+                    jsdata1=data.data
+                    var obj = document.getElementById("ul");
+
+
+                      for (var i=0;i<jsdata1.length;i++){
+                          if(jsdata1[i].status === "上线中"){
+
+                              var tr =document.createElement("tr");
+                      var createtr0 = document.createElement("td");
+                      var createtr1 = document.createElement("td");
+                      var createtr2 = document.createElement("td");
+                      var createtr3 = document.createElement("td");
+                      var createtr4 = document.createElement("td");
+                      var createtr5 = document.createElement("td");
+                      var createtr6 = document.createElement("td");
+                      var createtr7 = document.createElement("td");
+
+                        createtr0.innerHTML = jsdata1[i].id;
+                        tr.appendChild(createtr0);
+
+                        createtr1.innerHTML = jsdata1[i].type;
+                        tr.appendChild(createtr1);
+
+                        createtr2.innerHTML = jsdata1[i].name;
+                        tr.appendChild(createtr2);
+
+                        createtr3.innerHTML = jsdata1[i].length;
+                        tr.appendChild(createtr3);
+
+                        createtr4.innerHTML = jsdata1[i].price;
+                       tr.appendChild(createtr4);
+
+{#                        createtr5.innerHTML = jsdata1[i].describe;#}
+{#                        tr.appendChild(createtr5);#}
+
+                        createtr6.innerHTML = jsdata1[i].status;
+                        tr.appendChild(createtr6);
+
+                        createtr7.innerHTML = '<input type="button" value="上线" class="onbut" onclick="onbtnClick(this)">&nbsp;&nbsp;&nbsp;  <input type="button" value="下线" class="downbut" onclick="downbtnClick(this)">';
+                        tr.appendChild(createtr7);
+
+
+                        document.getElementById("tab").appendChild(tr)
+
+
+
+                          }else {
+
+                              var tr0 =document.createElement("tr");
+                      var createtr00 = document.createElement("td");
+                      var createtr01 = document.createElement("td");
+                      var createtr02 = document.createElement("td");
+                      var createtr03 = document.createElement("td");
+                      var createtr04 = document.createElement("td");
+                      var createtr05 = document.createElement("td");
+                      var createtr06 = document.createElement("td");
+                      var createtr07 = document.createElement("td");
+
+                        createtr00.innerHTML = jsdata1[i].id;
+                        tr0.appendChild(createtr00);
+
+                        createtr01.innerHTML = jsdata1[i].type;
+                        tr0.appendChild(createtr01);
+
+                        createtr02.innerHTML = jsdata1[i].name;
+                        tr0.appendChild(createtr02);
+
+                        createtr03.innerHTML = jsdata1[i].length;
+                        tr0.appendChild(createtr03);
+
+                        createtr04.innerHTML = jsdata1[i].price;
+                       tr0.appendChild(createtr04);
+
+{#                        createtr05.innerHTML = jsdata1[i].describe;#}
+{#                        tr0.appendChild(createtr05);#}
+
+                        createtr06.innerHTML = jsdata1[i].status;
+                        tr0.appendChild(createtr06);
+
+                        createtr07.innerHTML = '<input type="button" value="上线" class="onbut" onclick="onbtnClick(this)">&nbsp;&nbsp;&nbsp;  <input type="button" value="下线" class="downbut" onclick="downbtnClick(this)">';
+                        tr0.appendChild(createtr07);
+
+
+                        document.getElementById("tab2").appendChild(tr0)
+
+                          }
+                    }
+                    },
+                error : function(){
+                    console.log("错误")
+                }
+            });var onbutlis = document.getElementsByClassName("onbut");
+        }
+
+        showOpera();
+
+
+        var onbutlist = document.getElementsByClassName("onbut");
+        for(var i=0;i <onbutlist.length;i++){
+            function onbtnClick(e) {
+                console.log(e.parentNode.parentNode.childNodes[0].innerText)
+                var id = e.parentNode.parentNode.childNodes[0].innerText
+                $.ajax(
+                    {
+                        url:"/api/onOpera",
+                        type:"POST",
+                        data:{
+                            id:id
+                        },
+                        success:function (data) {
+                            $("#tab").children="none";
+
+                            //清楚tab元素的子元素
+                    var f= document.getElementById("tab");
+                    var childs = f.childNodes;
+                    for(var i =childs.length-1; i >= 0;i--) {
+{#                        console.log(childs[i])#}
+                        f.removeChild(childs[i]);
+                    }
+                                        var f0= document.getElementById("tab2");
+                    var childs0 = f0.childNodes;
+                    for(var i0 =childs0.length-1; i0 >= 0;i0--) {
+{#                        console.log(childs0[i])#}
+                        f0.removeChild(childs0[i0]);
+                    }
+
+                            showOpera()
+
+                        },
+                        error:function () {
+
+                        }
+
+                    }
+                )
+            }
+        }
+
+        var downbutlist = document.getElementsByClassName("downbut");
+        for(var i=0;i <downbutlist.length;i++){
+            function downbtnClick(e) {
+                console.log(e.parentNode.parentNode.childNodes[0].innerText)
+                    var id = e.parentNode.parentNode.childNodes[0].innerText
+                $.ajax(
+                    {
+                        url:"/api/downOpera",
+                        type:"POST",
+                        data:{
+                            id:id
+                        },
+                        success:function (data) {
+
+                            //清楚tab的子元素
+                    var f= document.getElementById("tab");
+                    var childs = f.childNodes;
+                    for(var i =childs.length-1; i >= 0;i--) {
+                        console.log(childs[i])
+                        f.removeChild(childs[i]);
+                    }
+
+                     var f0= document.getElementById("tab2");
+                    var childs0 = f0.childNodes;
+                    for(var i0 =childs0.length-1; i0 >= 0;i0--) {
+{#                        console.log(childs0[i0])#}
+                        f0.removeChild(childs0[i0]);
+                    }
+
+                            showOpera()
+                        },
+                        error:function () {
+
+                        }
+
+                    }
+                )
+            }
+        }
+
+
+</script>
+
+
+
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>制定演出计划</title>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
+</head>
+<body>
+
+<table border="1px" id="tab">
+        <tr id="tr1">
+
+            <th width="250px">剧目名称</th>
+            <th width="250px">剧目类型</th>
+            <th width="250px">剧目长度</th>
+            <th width="250px">票价</th>
+            <th width="250px">介绍</th>
+            <th width="250px">状态</th>
+        </tr>
+        <tr id="tr2">
+
+        </tr>
+    </table>
+
+
+
+
+
+<script>
+    $.ajax({
+                url: "/api/managePlay",
+                type: "POST",
+                dataType: "json",
+                data : {
+
+                },
+                success : function (data) {
+
+
+                    jsdata=JSON.stringify(data);
+                    jsdata1=JSON.parse(jsdata);
+                    console.log(jsdata1);
+                    console.log(jsdata1.data[0].play_id);
+
+                    var obj = document.getElementById("ul");
+
+
+
+
+
+
+
+                      for (var i=0;i<jsdata1.data.length;i++){
+                          var tr =document.createElement("tr");
+
+                      var createtr1 = document.createElement("td");
+                      var createtr2 = document.createElement("td");
+                      var createtr3 = document.createElement("td");
+                      var createtr4 = document.createElement("td");
+                      var createtr5 = document.createElement("td");
+                      var createtr6 = document.createElement("td");
+
+                        createtr1.innerHTML = jsdata1.data[i].play_name;
+                        createtr1.style="    font-size: 20px;";
+                        tr.appendChild(createtr1);
+
+                        createtr2.innerHTML = jsdata1.data[i].play_type;
+                        createtr2.style="    font-size: 20px;";
+                        tr.appendChild(createtr2);
+
+                        createtr3.innerHTML = jsdata1.data[i].play_length;
+                        createtr3.style="    font-size: 20px;";
+                        tr.appendChild(createtr3);
+
+                        createtr4.innerHTML = jsdata1.data[i].play_ticket_price;
+                        createtr4.style="    font-size: 20px;";
+                       tr.appendChild(createtr4);
+
+                        createtr5.innerHTML = jsdata1.data[i].play_introduction;
+                        createtr5.style="    font-size: 20px;";
+                        tr.appendChild(createtr5);
+
+                        createtr6.innerHTML = jsdata1.data[i].play_status;
+                        createtr6.style="    font-size: 20px;";
+                        tr.appendChild(createtr6);
+
+                        document.getElementById("tab").appendChild(tr)
+
+
+                    } },
+
+                error : function(){
+                    console.log("错误")
+                }
+            })
+</script>
+</body>
+</html>

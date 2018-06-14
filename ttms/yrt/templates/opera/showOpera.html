@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="http://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+    <script src="http://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+        p{
+            margin: 0 auto;
+            text-align: center;
+        }
+        .containter{
+            text-align: center;
+        }
+         body{
+            background-color: white;
+        }
+        *{
+            margin:0;
+            padding: 0;
+        }
+        .big{
+            height: 250px;
+            background-image: url("/static/img/back1.jpg");
+        }
+       img{
+            height: 300px;
+            width: 250px;
+            float: left;
+
+        }
+        .bigbox li .xiangqing{
+            height: 400px;
+            width: 420px;
+            background-color:white;
+            float:right;
+            box-shadow: 1px 1px 3px 2px #eeeeee;
+            border-radius: 8px;
+
+        }
+      .bigbox li{
+          list-style: none;
+       }
+        .bigbox{
+            width: 700px;
+            height: 400px;
+            margin: -100px 0 0 200px;
+
+        }
+        .mingzi{
+            height: 80px;
+            width: 250px;
+            position: absolute;
+            left: 125px;
+            top:168px;
+            padding-top: 300px;
+            text-align: center;
+            line-height: 80px;
+            font-size: 25px;
+        }
+
+
+        .mingzi h1{
+            width: 250px;
+        }
+
+        .xinxi li{
+            font-size: 25px;
+            font-family: "微软雅黑";
+            line-height: 50px;
+        }
+        .xinxi li .goupiao{
+            width: 150px;
+            height: 50px;
+            border-radius: 10px;
+           margin-top: 30px;
+            margin-left: 40px;
+        }
+        .xinxi  .goupiao:hover{
+            box-shadow: 1px 1px 3px 2px orange;
+        }
+        .xinxi li .pingfen{
+          color: red;
+            font-size: 30px;
+            font-style: italic;
+        }
+        .jianjie{
+            margin-top: 30px;
+            width:700px;
+            margin-left: 200px;
+            box-shadow: 1px 1px 3px 2px #eee;
+        }
+        .biaoti{
+            color:#768075;
+            font-size: 30px;
+            font-style: italic;
+            text-align: center;
+            border-bottom:1px solid black;
+        }
+         p{
+            text-indent: 2em;
+            font-size: 12px;
+            color: #666;
+
+        }
+        .xinxi span{
+            font-size: 25px;
+            font-style: normal;
+            font-family: "微软雅黑";
+            color: #768075;
+
+        }
+        #describe{
+            width: 500px;
+            height: 300px;
+        }
+
+    </style>
+</head>
+<body>
+
+
+<div class="containter">
+
+    <div class="big"></div>
+<ul class="bigbox ">
+    <li id="image"></li>
+    <li>
+        <div class="xiangqing">
+        <ul class="xinxi">
+            <li>日期：<span id="date"></span></li>
+            <li>演出厅：<span id="studio"></span></li>
+            <li>场次：<span id="time"></span></li>
+            <li>票价：<span id="price"></span></li>
+            <li >评分：<span class=" pingfen">4.6</span></li>
+            <li><div ><input type="button" class="goupiao" id="but" value="选择座位" style="background-color: blanchedalmond"></div></li>
+         </ul></div></li>
+</ul>
+    <p class="mingzi " >
+      <span id="name"></span>
+    </p>
+<div class="jianjie">
+    <h1 class="biaoti">
+        简介
+    </h1>
+    <p class="jianjie2">
+      <h3>演出介绍</h3>
+           <p id="describe"></p>
+
+
+
+
+
+</div>
+
+</div>
+
+
+<script>
+    //从loacl.Storage中获取内容
+
+    var data = localStorage.getItem("data");
+    var a = JSON.parse(data);
+    console.log(a);
+    console.log("showOpera页面中获取到的数据");
+    console.log(a.date);
+    console.log(a.time);
+    console.log(a.studio);
+    console.log(a.operaId);
+
+    if(a.time==="1"){
+        time="8：00-11:00"
+    }else if(a.time==="2"){
+        time="12:00-15:00"
+    }else if(a.time==="3"){
+        time="16:00-19:00"
+    }else if(a.time==="4"){
+        time="20:00-23:00"
+    }
+
+        if (a.studio ==="1"){
+        studio="一号演出厅"
+    }else if(a.studio === "2"){
+        studio="二号演出厅"
+    }else if(a.studio === "3"){
+        studio="三号演出厅"
+    }else if(a.studio === "4"){
+        studio="四号演出厅"
+    }
+
+
+
+//展示数据
+    $.ajax({
+        url:"api/getOperaById",
+        type:"POST",
+        data:{
+            operaId:a.operaId
+        },
+        success:function (data) {
+
+            console.log(data)
+            console.log(data.data[0].type)
+            console.log(data.data[0].length)
+            console.log(data.data[0].price)
+            console.log(data.data[0].describe)
+            console.log(data.data[0].image)
+
+
+            $('#name').text( data.data[0].name);
+            $('#date').text(a.date);
+            $('#studio').text(studio);
+            $('#time').text(time);
+            $('#price').text(data.data[0].price);
+            $('#length').text("演出时长"+data.data[0].length);
+            $('#describe').text(data.data[0].describe);
+            document.getElementById("image").innerHTML="<img src=/media/"+data.data[0].image +' alt='+">";
+
+
+        },
+        error:function () {
+
+        }
+
+
+
+    })
+
+
+</script>
+
+<script>
+    document.getElementById("but").onclick=function () {
+        $.ajax({
+            url:"api/check",
+            type:"POST",
+            data:{
+                
+            },
+            success:function (data) {
+                console.log(data)
+                console.log(data.status)
+                if(data.status =="1"){  //如果用户没有登录
+                    alert("用户当前未登录，请先登录！")
+                    location.href="/login"
+                }
+                else {
+                    location.href="/checkSeat"
+                }
+            },
+            error:function () {
+                
+            }
+            
+            
+            
+        })
+
+
+
+
+    }
+
+</script>
+</body>
+</html>

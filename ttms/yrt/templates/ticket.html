@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+	<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<style>
+    #bigbox{
+        width: 1210px;
+        height: 1000px;
+        margin: 0 auto;
+    }
+    .sbox{
+        box-shadow: 1px 1px 3px 2px #eeeeee;
+        float: left;
+        width: 285px;
+        height: 200px;
+        margin: 8px;
+        position: relative;
+    }
+    .image{
+        margin-left: 2px;
+        width: 125px;
+        height: 165px;
+        background-color: #eeeeee;
+        float: left;
+
+    }
+    img{
+        width: 125px;
+        height: 165px;
+    }
+    .text{
+        width: 150px;
+        height: 200px;
+{#        background-color: #969696;#}
+        position: absolute;
+        left: 130px;
+        top:0px;
+        text-align: center;
+
+    }
+    li{
+        list-style: none;
+{#        background-color: #2ba3d4;#}
+        margin-top: 2px;
+        margin-left: -30px;
+    }
+    .name{
+        font-size: 18px;
+        line-height: 18px;
+        height: 38px;
+        font-weight: 400;
+        font-family: Arial,Tahoma,SimSun-ExtB;
+    }
+    .date{
+        font-size: 12px;
+        line-height: 30px;
+        font-weight: 400;
+{#        color: #487bbe;#}
+        font-family: arial, Tahoma, simsun, 宋体;
+
+    }
+    .time{
+        font-size: 12px;
+        line-height: 30px;
+        font-weight: 400;
+{#        color: #487bbe;#}
+        font-family: arial, Tahoma, simsun, 宋体;
+    }
+    .schedule{
+
+
+    }
+    .price{
+        font-family: Arial,Tahoma,simsun;
+        font-style: normal;
+        font-size: 14px;
+        font-weight: 700;
+        color: #f65f5f;
+        line-height: 30px;
+
+    }
+    input{
+        margin-left: -30px;
+        margin-top: 5px;
+        border-radius: 10px;
+    }
+    .id{
+        display: none;
+    }
+
+</style>
+
+</head>
+
+<body>
+<!-- 时间  场次  图片  票价  演出厅   剧目名称 按钮 -->
+<div class="containter" id="bigbox" >
+
+</div>
+
+
+<script>
+
+
+    $.ajax({
+        url:"/api/getOperaList",
+        type:"POST",
+        async:false,
+        data:{
+
+        },
+        success:function (data) {
+            console.log(data);
+            console.log(data.data[0]);
+            console.log(data.data[0].name);
+
+            for(var i=0;i<data.data.length;i++){
+                console.log(data.data[i].name);
+
+                    var obj=" <div  class=\"sbox\">\n" +
+                        "        <div class=\"image\">\n" + "<img src=/media/"+data.data[i].image +' alt='+">"+
+                        "            </div>\n" +
+                        "            <div class=\"text\">\n" +
+                        "                <ul>\n" +
+                        "                    <li class=\"name\">\n" + data.data[i].name +
+                        "\n" +
+                        "                    </li>\n" +
+                        "                    <li class=\"date\">\n" +  data.data[i].date +
+                        "\n" +
+                        "                    </li>\n" +
+                        "                    <li class=\"time\">\n" +  data.data[i].time +
+                        "\n" +
+                        "                    </li>\n" +
+                        "                    <li class=\"id\">\n" +  data.data[i].id +
+                        "\n" +
+                        "                    </li>\n" +
+                        "                    <li class=\"schedule\">\n" +  data.data[i].schedule +
+                        "\n" +
+                        "                    </li>\n" +
+                        "                    <li class=\"price\">\n" +   data.data[i].price +
+                        "\n" +
+                        "                    </li>\n" +
+                        "                    <input type=\"button\" onclick=onbtnClick(this) value=\"购票\">\n" +
+                        "                </ul>\n" +
+                        "            </div>";
+    document.getElementById("bigbox").innerHTML+=obj;
+
+            }
+
+
+
+        },
+        error:function () {
+
+        }
+    });
+
+
+function onbtnClick(e) {
+
+
+
+                date=e.parentNode.getElementsByClassName('date')[0].innerText;
+                times=e.parentNode.getElementsByClassName('time')[0].innerText;
+                studios=e.parentNode.getElementsByClassName('schedule')[0].innerText;
+                price=e.parentNode.getElementsByClassName('price')[0].innerText;
+                namess=e.parentNode.getElementsByClassName('name')[0].innerText;
+                operaId=e.parentNode.getElementsByClassName('id')[0].innerText;
+
+                            if (studios ==="一号演出厅"){
+                studio="1"
+            }else if(studios === "二号演出厅"){
+                studio="2"
+            }else if(studios === "三号演出厅"){
+                studio="3"
+            }else if(studios === "四号演出厅"){
+                studio="4"
+            }
+
+            if (times ==="8:00-11:00"){
+                time="1"
+            }else if(times === "12:00-15:00"){
+                time="2"
+            }else if(times === "16:00-19:00"){
+                time="3"
+            }else if(times === "20:00-23:00"){
+                time="4"
+            }
+
+            data={
+                date:date,
+                time:time,
+                studio:studio,
+                operaId:operaId,
+                price:price,
+                name:namess
+
+            };
+            console.log(data);
+            var datastr = JSON.stringify(data);
+            localStorage.setItem("data",datastr);
+
+
+        location.href="/showOpera";
+}
+
+
+</script>
+
+</body>
+</html>

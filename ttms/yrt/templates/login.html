@@ -1,0 +1,115 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>锐意特影院管理系统</title>
+            <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="http://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+    <script src="http://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style >
+
+        body{
+            background-image: url("/static/img/login.jpg");
+            background-repeat:no-repeat ;
+            background-size: 100%;
+        }
+
+        #body_login{
+            background-color: #c7ddef;
+        }
+
+       #login_right{
+           text-align: center;
+            float: right;
+           border-radius: 50px;
+             background: rgba(346,0,0,0.2);
+{#           background-color: #2ecc71;#}
+            width: 40%;
+            height:300px;
+            margin-top:8%;
+           margin-right: 40px;
+
+        }
+
+
+    </style>
+
+</head>
+
+
+
+<body id="body_login">
+
+
+    <div id="login_right">
+        <h2 class="p1">用户登录</h2>
+        <form action="/api/login" method="post" id="form1"  >
+                    <p class="c1">
+                    帐户名&nbsp;&nbsp;&nbsp;<input id="txt_email" name="account" value="" type="text" class="login_inputxt" />
+                    </p>
+                    <p class="c2">
+                    登录密码<input id="txt_password" name="password" type="password" class="login_inputxt" />
+                    </p>
+                    <p class="c3">
+                        账号类别<select name="status" id="status" class="c2" class="login_inputxt">
+                            <option value="manage">
+                                管理员
+                            </option>
+                            <option value="user" selected="selected">
+                                用户
+                            </option>
+                        </select>
+                    </p>
+                    <p class="c3">
+                        <input id="btn_login" type="button"  class="btn_login" value="登录" onclick="fun()"/>
+                        <a href="/addUser" style="margin-left:10px;color:red" >点击注册</a>
+                    </p>
+        </form>
+</div>
+</div>
+
+    <script>
+
+
+
+
+        var obj=document.getElementById("btn_login");
+            obj.onclick = function () {
+
+                        $.ajax({
+            url:"/api/login",
+            type:"POST",
+            data:$("#form1").serialize(),
+            success:function (data) {
+                console.log(data);
+
+                console.log(data.status)
+
+                if(data.status == "0"){  //登录错误
+                    location.href="/loginError"
+                }else{
+
+                    parent.dh.location.reload();
+                        location.href="/home"
+
+                }
+
+
+
+            },
+            error:function () {
+
+            }
+        });
+
+
+
+        }
+
+    </script>
+
+
+
+</body>
+</html>

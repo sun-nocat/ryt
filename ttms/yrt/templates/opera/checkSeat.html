@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+        <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="http://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+    <script src="http://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+    <style>
+        #check{
+            width: 400px;
+            height:400px;
+                        float: left;
+
+
+        }
+        .comment{
+            width: 40px;
+            height: 40px;
+            background-color: #eeeeee;
+
+            float: left;
+        }
+        img{
+            width: 35px;
+            height: 35px;
+        }
+        #ticket_screen{
+            width: 400px;
+            height: 60px;
+        }
+        .main{
+            width: 900px;
+            height: 600px;
+            margin-left: 200px;
+        }
+        #seatUI{
+            float: left;
+
+        }
+        #img_screen{
+            width: 100%;
+        }
+        li{
+            list-style: none;
+        }
+        #right{
+            width: 320px;
+            height: 370px;
+            background-color: #c3c3c3;
+            float: right;
+            border-radius: 8px;
+
+        }
+        #but{
+
+            margin-top: 40px;
+            margin-left: 62px;
+            width: 100px;
+            height: 35px;
+            border-radius: 15px;
+        }
+        h4{
+            margin-left: 30px;
+            margin-top: 25px;
+        }
+        h3{
+            margin-left: 28px;
+            margin-top: 26px;
+        }
+        #leftu{
+            position: relative;
+            left: 5px;
+            top: 5px;
+
+
+        }
+        #leftu li{
+            height: 5px;
+        }
+
+
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+<div class="main">
+    <div id="img_screen">
+        <img src="/static/img/ticket_screen.jpg" alt="" id="ticket_screen">
+    </div>
+<div>
+
+        <div id="check">
+
+</div>
+        </div>
+        <ul id="seatUI">
+            <li>
+                <img src="/static/img/seat1.png" alt="" width="30" height="26">
+                已选座位
+            </li>
+            <li>
+                <img src="/static/img/seat2.png" alt="" width="30" height="26">
+                已售座位
+            </li>
+            <li>
+                <img src="/static/img/seat3.png" alt="" width="30" height="26">
+                可选座位
+            </li>
+        </ul>
+        <div id="right">
+            <ul>
+                            <li id="opera">
+                        <h4>剧目名&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h4>
+                </li>
+                                <li id="date">
+                        <h4>日期&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h4>
+                </li>
+                                <li id="time">
+                        <<h4>场次</h4>
+                </li>
+                                <li id="play">
+                        <h4>演出厅&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h4>
+                </li>
+
+                                <li id="ticketnumber">
+                        <h4>总票数&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0</h4>
+                </li>
+
+
+                <li id="count">
+                    <h3>总价格&nbsp;&nbsp;&nbsp;0</h3>
+                </li>
+
+                <li>
+                    <input type="button" value="确认购买" id="but">
+                </li>
+            </ul>
+        </div>
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+<script>
+
+    //从loacl.Storage中获取内容
+    var data = localStorage.getItem("data");
+    var a = JSON.parse(data);
+    console.log(a);
+    console.log("showOpera页面中获取到的数据");
+    console.log(a.date);
+    console.log(a.time);
+    console.log(a.studio);
+    console.log(a.operaId);
+    console.log(a.name);
+    document.getElementById("date").innerHTML="<h4>日期&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+a.date+"</h4>";
+    document.getElementById("time").innerHTML="<h4>场次&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+a.time+"</h4>";
+    document.getElementById("play").innerHTML="<h4>演出厅&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+a.studio+"</h4>";
+    document.getElementById("opera").innerHTML="<h4>剧目名称&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+a.name+"</h4>";
+
+
+    if(a.time==="1"){
+        time="8：00-11:00"
+    }else if(a.time==="2"){
+        time="12:00-15:00"
+    }else if(a.time==="3"){
+        time="16:00-19:00"
+    }else if(a.time==="4"){
+        time="20:00-23:00"
+    }
+
+        if (a.studio ==="1"){
+        studio="一号演出厅"
+    }else if(a.studio === "2"){
+        studio="二号演出厅"
+    }else if(a.studio === "3"){
+        studio="三号演出厅"
+    }else if(a.studio === "4"){
+        studio="四号演出厅"
+    }
+
+
+
+                function getSeatData(date,studio,time) {
+                    $.ajax({
+                    url:"/api/getTicket",
+                    type:"POST",
+                    data:{
+                        date:date,
+                        studio:studio,
+                        time:time
+                    },
+                    success:function (data) {
+                        console.log(data.data);
+
+                       var list= data.data; //接受到的状态状态列表
+                        //渲染页面
+                        for(var i=1;i<101;i++){
+                    var div = document.createElement("div");
+
+                    var image = document.createElement("img");
+                    //已经被买了。不设置number
+                            if (list[i-1]===2){
+                                div.setAttribute("class","number comment");
+                                image.setAttribute("src","/static/img/seat3.png") ; //如果这个票没有被购买的话
+                                div.appendChild(image);
+                                div.setAttribute("nb",i);
+                                $('#check').append(div);
+                            }else if(list[i-1]===1) {
+                                div.setAttribute("class","comment");
+                                image.setAttribute("src","/static/img/seat2.png") ; //如果这个票没有被购买的话
+                                div.appendChild(image);
+                                div.setAttribute("nb",i);
+                                $('#check').append(div);
+                            }
+                            }
+                    //如果没别买，将设置number
+
+                    // 选择座位的点击事件
+                    click();
+
+                    },
+                    error:function () {
+
+                    }
+                })
+
+                }
+
+
+
+
+            //展示数据
+            getSeatData(a.date,a.studio,a.time);
+
+                var shuzu=[];
+                for (var i=1;i<101;i++){
+                    shuzu.push(1);
+                }
+                console.log(shuzu);
+
+                var count=0;    //记录目前的选票总金额
+
+                //选择座位的点击事件
+                function click() {
+
+                    $('.number').click(function () {
+
+                        var data = localStorage.getItem("data");
+                        var a = JSON.parse(data);
+                        var t = parseInt(a.price);
+
+                    console.log($(this).attr("nb"));
+                    if (shuzu[$(this).attr("nb")-1]==1){         //如果这个座位没有被选定的话
+                        count = count+t;
+{#                        console.log(count)#}
+                        shuzu[$(this).attr("nb")-1]=-1;
+                        console.log($(this).children()[0].getAttribute("src"));
+                        if ($(this).children()[0].getAttribute("src")=="/static/img/seat3.png"){
+                            $(this).children()[0].setAttribute("src","/static/img/seat1.png")
+                        }else if ($(this).children()[0].getAttribute("src")=="/static/img/seat1.png"){
+                             $(this).children()[0].setAttribute("src","/static/img/seat3.png")
+                        }
+                    }else if(shuzu[$(this).attr("nb")-1]=-1){   //如果这儿座位被选定的话
+                        shuzu[$(this).attr("nb")-1]=1;
+                        count=count-t;
+                            if ($(this).children()[0].getAttribute("src")=="/static/img/seat1.png"){
+                            $(this).children()[0].setAttribute("src","/static/img/seat3.png")
+                        }else if ($(this).children()[0].getAttribute("src")=="/static/img/seat3.png"){
+                             $(this).children()[0].setAttribute("src","/static/img/seat1.png")
+                        }
+                    }
+
+                    ticketnumber = count/t; //计算当前已经选择的票数
+                        document.getElementById("count").innerHTML="<h3>总价格&nbsp;&nbsp;&nbsp;"+count+"</h3>";
+                        document.getElementById("ticketnumber").innerHTML="<h4>总票数&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+ticketnumber+"</h4>";
+                        console.log(count);  //计算当前选的票的总金额
+                        console.log(ticketnumber)
+                    }
+                    )
+
+                }
+
+                //提交按钮的点击事件
+                $("#but").click(function () {
+                    console.log(shuzu)
+                        var dataj = localStorage.getItem("data");
+                        var j = JSON.parse(dataj);
+                        console.log(j);
+                        console.log("showOpera页面中获取到的数据");
+                        console.log(j.date);
+                        console.log(j.time);
+                        console.log(j.studio);
+                        console.log(j.operaId);
+                        console.log(j.name);
+
+                        var orderlist={
+                            date:j.date,
+                            time:j.time,
+                            name:j.name,
+                            studio:j.studio
+                        };
+
+                        console.log(orderlist);
+                        orderliststr = JSON.stringify(orderlist)
+                    for(var i =0; i<100;i++){
+                        if(shuzu[i]==-1){
+                            console.log(i+1)
+
+                            var baba = i+1;
+                            if (baba<=10){
+                                var h =1;
+                                var l = baba;
+                            }else if(baba%10==0){
+                                var h = parseInt(baba/10);
+                                var l = 10;
+
+                            }else{
+                                var h = parseInt(baba/10)+1;
+                                var l = baba-h*10+10;
+                            }
+
+                            console.log(h);
+                            console.log(l);
+                            var data = localStorage.getItem("data");
+                            var a = JSON.parse(data);
+                            $.ajax({
+                                url:"/api/setTicket",
+                                type:"POST",
+                                async:false,
+                                data:{
+                                    row:h,
+                                    col:l,
+                                    date:a.date,
+                                    time:a.time,
+                                    studio:a.studio,
+                                    count:j.price,
+                                    operaname:j.name,
+{#                                    countticket:ticketnumber#}
+
+
+                                },
+                                success:function (data) {
+                                },
+                                error:function () {
+                                    
+                                }
+                                
+                            })
+
+
+
+
+                        }
+
+                    }
+
+                                     alert("购买成功")
+
+                })
+
+
+
+
+</script>
+
+</body>
+</html>
